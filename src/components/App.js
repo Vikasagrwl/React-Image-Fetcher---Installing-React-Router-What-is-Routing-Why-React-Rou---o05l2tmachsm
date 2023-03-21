@@ -7,6 +7,7 @@ const App = () => {
   const[id, setId] = useState("");
   const[item, setItem] = useState({});
   const[state, setState] = useState(false);
+  
     const getData = async ()=>{
         try {
             const response = await fetch("https://jsonplaceholder.typicode.com/photos/"+id);
@@ -17,13 +18,20 @@ const App = () => {
             console.log(error);
         }
     }
-
+    
   const handleChange = (e)=>{
-    setLoading(true);
     setState(true);
+    setLoading(true) ;
+    if(!e.target.value || e.target.value<=0){
+        setState(false)
+    }
     setId(e.target.value);
-    getData();
+    
   }
+
+  useEffect(()=>{
+    getData();
+  }, [id]);
     return(
         <div className='app'>
             id<input type="number" onChange={handleChange}/><br />
